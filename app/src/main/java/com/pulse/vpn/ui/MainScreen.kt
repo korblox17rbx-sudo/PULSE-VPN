@@ -132,7 +132,7 @@ fun OrbButton(on: Boolean, onTap: () -> Unit) {
                     Color.White, 175f, 170f, false,
                     topLeft = Offset(c.x - w * 0.30f, c.y - w * 0.06f),
                     size = Size(w * 0.60f, w * 0.26f),
-                    style = Stroke(w * 0.030f, StrokeCap.Round)
+                    style = Stroke(width = w * 0.030f, cap = StrokeCap.Round)
                 )
             } else {
                 val a = ((p - 0.5f) * 2f).coerceIn(0f, 1f)
