@@ -30,5 +30,5 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-runtime-compose:2.8.7")
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.7")
     implementation("androidx.datastore:datastore-preferences:1.1.1")
-    implementation("com.wireguard.android:tunnel:1.3.1")
+    implementation("com.wireguard.android:tunnel:1.0.20230706")
 }
