@@ -26,7 +26,7 @@ object WireGuardManager {
 
     private class PulseTunnel(private val tunnelName: String) : Tunnel {
         override fun getName(): String = tunnelName
-        override fun onStateChanged(newState: Tunnel.State) {
+        override fun onStateChange(newState: Tunnel.State) {
             _up.value = newState == Tunnel.State.UP
         }
     }
