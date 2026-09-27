@@ -6,11 +6,13 @@ import com.wireguard.android.backend.GoBackend
 import com.wireguard.android.backend.Tunnel
 import com.wireguard.config.Config
 import com.wireguard.config.Interface
+import com.wireguard.config.InetNetwork
 import com.wireguard.config.Peer
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.withContext
+import java.net.InetAddress
 
 object WireGuardManager {
     private var backend: GoBackend? = null
@@ -22,9 +24,10 @@ object WireGuardManager {
         if (backend == null) backend = GoBackend(app.applicationContext)
     }
 
-    private class PulseTunnel(override val name: String) : Tunnel {
-        override fun onStateChanged(state: Tunnel.State) {
-            _up.value = state == Tunnel.State.UP
+    private class PulseTunnel(private val tunnelName: String) : Tunnel {
+        override fun getName(): String = tunnelName
+        override fun onStateChanged(newState: Tunnel.State) {
+            _up.value = newState == Tunnel.State.UP
         }
     }
 
@@ -33,10 +36,10 @@ object WireGuardManager {
         return Config.Builder()
             .setInterface(
                 Interface.Builder()
-                    .addAddress("${s.clientIp}/32")
+                    .addAddress(InetNetwork.parse("${s.clientIp}/32"))
                     .parsePrivateKey(s.clientPriv)
-                    .addDnsServer("1.1.1.1")
-                    .addDnsServer("8.8.8.8")
+                    .addDnsServer(InetAddress.getByName("1.1.1.1"))
+                    .addDnsServer(InetAddress.getByName("8.8.8.8"))
                     .build()
             )
             .addPeer(
